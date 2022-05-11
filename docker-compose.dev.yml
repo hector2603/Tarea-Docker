@@ -1,13 +1,23 @@
 version: '3.8'
 
 services:
- web:
+
+ bin:
+  image: nginx:alpine
+  networks:
+  - network2
+
+ api:
   build:
    context: .
+   dockerfile: Dockerfile-api
   ports:
   - 8000:5000
   volumes:
   - ./:/app
+  networks:
+  - network1
+  - network2
 
  mysqldb:
   image: mysql
@@ -18,20 +28,15 @@ services:
   volumes:
   - mysql:/var/lib/mysql
   - mysql_config:/etc/mysql
-
- phpmyadmin:
-  image: phpmyadmin/phpmyadmin
-  container_name: pma
-  links:
-    - mysqldb
-  environment:
-    PMA_HOST: mysqldb
-    PMA_PORT: 3306
-    PMA_ARBITRARY: 1
-  restart: always
-  ports:
-    - 8081:80
+  networks:
+  - network1
 
 volumes:
   mysql:
   mysql_config:
+
+networks:
+  network1:
+    driver: bridge
+  network2:
+    driver: bridge
