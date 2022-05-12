@@ -1,0 +1,16 @@
+curl --location --request GET 'http://api:5000/people'
+
+curl --location --request POST 'http://api:5000/create' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name":"Javier",
+    "lastName":"Rosero"
+}'
+
+curl --location --request POST 'http://api:5000/update' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": 3,
+    "name": "Javier Andres",
+    "lastName": "Rosero"
+}'
